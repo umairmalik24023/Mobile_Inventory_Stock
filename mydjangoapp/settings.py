@@ -34,7 +34,11 @@ DEBUG = False
 
 
 #===========================================================================================#
-ALLOWED_HOSTS = ['*'] # Additional Added Command by me UMAIR AHMAD
+#ALLOWED_HOSTS = ['*'] # Additional Added Command by me UMAIR AHMAD
+#===========================================================================================#
+
+#===========================================================================================#
+ALLOWED_HOSTS = ['.onrender.com', 'localhost'] # Additional Added Command by me UMAIR AHMAD
 #===========================================================================================#
 
 
@@ -125,22 +129,23 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+# Static files
+STATIC_URL = '/static/'
+
+# Where collectstatic will put all final static files
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-#===========================================================================================#
-#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # Line Added by me UMAIR AHMAD
-
-# Whitenoise for static handling
-MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware") # Line Added by me UMAIR AHMAD
-#===========================================================================================#
 
 # Additional static files directories
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
     BASE_DIR / 'assets',  # Add assets folder for images
-    BASE_DIR,  # serves assets/css/js directly from project root where they exist
 ]
+
+# Whitenoise for static handling
+MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware") # Line Added by me UMAIR AHMAD
+#===========================================================================================#
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
