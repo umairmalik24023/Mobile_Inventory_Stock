@@ -1,0 +1,37 @@
+<svg width="300" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="phoneGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e9ecef;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="screenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#000000;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#1a1a1a;stop-opacity:0.9" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Phone Body -->
+  <rect x="50" y="20" width="200" height="360" rx="25" ry="25" fill="url(#phoneGrad1)" stroke="#dee2e6" stroke-width="2"/>
+  
+  <!-- Screen -->
+  <rect x="65" y="50" width="170" height="280" rx="15" ry="15" fill="url(#screenGrad)"/>
+  
+  <!-- Dynamic Island -->
+  <rect x="120" y="60" width="60" height="25" rx="12" ry="12" fill="#000000"/>
+  
+  <!-- Camera Module -->
+  <circle cx="140" cy="200" r="25" fill="#2c3e50"/>
+  <circle cx="140" cy="200" r="18" fill="#34495e"/>
+  <circle cx="140" cy="200" r="12" fill="#000000"/>
+  
+  <!-- Home Indicator -->
+  <rect x="150" y="320" width="40" height="4" rx="2" ry="2" fill="#ffffff" opacity="0.6"/>
+  
+  <!-- Side Buttons -->
+  <rect x="45" y="80" width="8" height="40" rx="4" ry="4" fill="#6c757d"/>
+  <rect x="45" y="130" width="8" height="20" rx="4" ry="4" fill="#6c757d"/>
+  <rect x="45" y="160" width="8" height="20" rx="4" ry="4" fill="#6c757d"/>
+  
+  <!-- Brand Text -->
+  <text x="150" y="380" font-family="Arial, sans-serif" font-size="12" fill="#6c757d" text-anchor="middle">iPhone 15 Pro Max</text>
+</svg>

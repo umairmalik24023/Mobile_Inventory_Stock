@@ -1,0 +1,30 @@
+{{ site_name }} - Order Status Update
+
+Dear {{ customer.first_name }} {{ customer.last_name }},
+
+Your order status has been updated to: {{ order.get_order_status_display }}
+
+Order Details:
+- Order Number: {{ order.order_number }}
+- Product: {{ order.product_name }}
+- Model: {{ order.product_model }}
+- Quantity: {{ order.quantity }}
+- Total Amount: ${{ order.total_amount }}
+- Current Status: {{ order.get_order_status_display }}
+- Payment Status: {{ order.get_payment_status_display }}
+
+{% if order.order_status == 'shipped' %}
+Your order has been shipped and is on its way to you!
+{% elif order.order_status == 'delivered' %}
+Your order has been delivered. Thank you for your business!
+{% elif order.order_status == 'cancelled' %}
+Your order has been cancelled. If you have any questions, please contact us.
+{% endif %}
+
+If you have any questions, please don't hesitate to contact us.
+
+Best regards,
+{{ site_name }} Team
+
+---
+This is an automated message. Please do not reply to this email.

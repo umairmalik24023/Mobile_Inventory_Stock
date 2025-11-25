@@ -1,0 +1,336 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% if order %}Edit Order{% else %}New Order{% endif %} - Mobile Shop Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+    <style>
+        body { background-color: #f8f9fc; }
+        .sidebar { width: 260px; transition: width .2s ease; }
+        .content { margin-left: 260px; transition: margin-left .2s ease; }
+        .sidebar .nav-link { color: #e2e8f0; }
+        .sidebar .nav-link.active, .sidebar .nav-link:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .sidebar-collapsed .sidebar { width: 72px; }
+        .sidebar-collapsed .content { margin-left: 72px; }
+        .sidebar .nav-link i { width: 24px; text-align: center; }
+        .sidebar-collapsed .sidebar .label { display: none; }
+        .sidebar-collapsed .sidebar .brand-label { display: none; }
+    </style>
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <nav class="sidebar bg-dark min-vh-100 position-fixed">
+            <div class="p-3 border-bottom border-secondary d-flex align-items-center gap-2">
+                <i class="bi-speedometer2 text-white fs-4"></i>
+                <span class="text-white fw-bold brand-label">Mobile Shop</span>
+            </div>
+            <ul class="nav flex-column p-2">
+                <li class="nav-item"><a class="nav-link rounded px-3" href="/dashboard/"><i class="bi-grid me-2"></i><span class="label">Dashboard</span></a></li>
+                <li class="nav-item"><a class="nav-link rounded px-3" href="/dashboard/users/"><i class="bi-people me-2"></i><span class="label">Users</span></a></li>
+                <li class="nav-item"><a class="nav-link rounded px-3" href="/dashboard/customers/"><i class="bi-person-badge me-2"></i><span class="label">Customers</span></a></li>
+                <li class="nav-item"><a class="nav-link active rounded px-3" href="/dashboard/orders/"><i class="bi-bag me-2"></i><span class="label">Orders</span></a></li>
+                <li class="nav-item"><a class="nav-link rounded px-3" href="/dashboard/contacts/"><i class="bi-inbox me-2"></i><span class="label">Contacts</span></a></li>
+                <li class="nav-item"><a class="nav-link rounded px-3" href="#content"><i class="bi-folder2-open me-2"></i><span class="label">Content</span></a></li>
+            </ul>
+        </nav>
+
+        <!-- Content -->
+        <main class="content w-100">
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand bg-white shadow-sm sticky-top">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-outline-secondary btn-sm" id="sidebarToggle" type="button"><i class="bi-layout-sidebar"></i></button>
+                        <h4 class="mb-0">{% if order %}Edit Order{% else %}New Order{% endif %}</h4>
+                    </div>
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item me-2"><a href="/" class="btn btn-outline-primary btn-sm"><i class="bi-house"></i> Site</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi-person-circle fs-5"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><h6 class="dropdown-header">Admin</h6></li>
+                                <li><a class="dropdown-item" href="#profile">Profile</a></li>
+                                <li><a class="dropdown-item" href="#settings">Settings</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="/logout/">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container-fluid py-4">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/dashboard/">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="/dashboard/orders/">Orders</a></li>
+                        <li class="breadcrumb-item active">{% if order %}Edit Order{% else %}New Order{% endif %}</li>
+                    </ol>
+                </nav>
+
+                <!-- Form -->
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0">{% if order %}Edit Order{% else %}Create New Order{% endif %}</h5>
+                            </div>
+                            <div class="card-body">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                            {{ message }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.customer.id_for_label }}" class="form-label">Customer *</label>
+                                            {{ form.customer }}
+                                            {% if form.customer.errors %}
+                                                <div class="text-danger">{{ form.customer.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.inventory_item.id_for_label }}" class="form-label">Select Product from Inventory *</label>
+                                            {{ form.inventory_item }}
+                                            {% if form.inventory_item.help_text %}
+                                                <div class="form-text">{{ form.inventory_item.help_text }}</div>
+                                            {% endif %}
+                                            {% if form.inventory_item.errors %}
+                                                <div class="text-danger">{{ form.inventory_item.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.product_name.id_for_label }}" class="form-label">Product Name *</label>
+                                            {{ form.product_name }}
+                                            {% if form.product_name.errors %}
+                                                <div class="text-danger">{{ form.product_name.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.product_model.id_for_label }}" class="form-label">Product Model *</label>
+                                            {{ form.product_model }}
+                                            {% if form.product_model.errors %}
+                                                <div class="text-danger">{{ form.product_model.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3 mb-3">
+                                            <label for="{{ form.quantity.id_for_label }}" class="form-label">Quantity *</label>
+                                            {{ form.quantity }}
+                                            {% if form.quantity.help_text %}
+                                                <div class="form-text">{{ form.quantity.help_text }}</div>
+                                            {% endif %}
+                                            {% if form.quantity.errors %}
+                                                <div class="text-danger">{{ form.quantity.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="{{ form.unit_price.id_for_label }}" class="form-label">Unit Price *</label>
+                                            {{ form.unit_price }}
+                                            {% if form.unit_price.errors %}
+                                                <div class="text-danger">{{ form.unit_price.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="alert alert-info">
+                                                <i class="bi-info-circle me-1"></i>
+                                                <strong>Stock Management:</strong> Product details and price will be auto-filled when you select an inventory item. Stock will be automatically updated when the order is created.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.order_status.id_for_label }}" class="form-label">Order Status</label>
+                                            {{ form.order_status }}
+                                            {% if form.order_status.errors %}
+                                                <div class="text-danger">{{ form.order_status.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.payment_status.id_for_label }}" class="form-label">Payment Status</label>
+                                            {{ form.payment_status }}
+                                            {% if form.payment_status.errors %}
+                                                <div class="text-danger">{{ form.payment_status.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="{{ form.shipping_address.id_for_label }}" class="form-label">Shipping Address *</label>
+                                        {{ form.shipping_address }}
+                                        {% if form.shipping_address.errors %}
+                                            <div class="text-danger">{{ form.shipping_address.errors }}</div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="{{ form.notes.id_for_label }}" class="form-label">Notes</label>
+                                        {{ form.notes }}
+                                        {% if form.notes.errors %}
+                                            <div class="text-danger">{{ form.notes.errors }}</div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="d-flex gap-2">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi-check-circle me-1"></i> {% if order %}Update Order{% else %}Create Order{% endif %}
+                                        </button>
+                                        <a href="/dashboard/orders/" class="btn btn-outline-secondary">
+                                            <i class="bi-x-circle me-1"></i> Cancel
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-white">
+                                <h6 class="mb-0">Order Information</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label text-muted">Order Number</label>
+                                    <div class="fw-medium">{% if order %}{{ order.order_number }}{% else %}Auto-generated{% endif %}</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-muted">Total Amount</label>
+                                    <div class="fw-medium" id="total-amount">$0.00</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-muted">Order Date</label>
+                                    <div class="fw-medium">{% if order %}{{ order.order_date|date:"M d, Y" }}{% else %}Today{% endif %}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow-sm mt-3">
+                            <div class="card-header bg-white">
+                                <h6 class="mb-0">Quick Actions</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-grid gap-2">
+                                    <a href="/dashboard/customers/new/" class="btn btn-outline-primary btn-sm">
+                                        <i class="bi-person-plus me-1"></i> Add New Customer
+                                    </a>
+                                    <a href="/dashboard/orders/" class="btn btn-outline-secondary btn-sm">
+                                        <i class="bi-list me-1"></i> View All Orders
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function() {
+            const body = document.body;
+            const toggleBtn = document.getElementById('sidebarToggle');
+            const key = 'sidebar-collapsed';
+            if (localStorage.getItem(key) === '1') {
+                body.classList.add('sidebar-collapsed');
+            }
+            toggleBtn?.addEventListener('click', function() {
+                body.classList.toggle('sidebar-collapsed');
+                const collapsed = body.classList.contains('sidebar-collapsed');
+                localStorage.setItem(key, collapsed ? '1' : '0');
+            });
+
+            // Calculate total amount
+            function calculateTotal() {
+                const quantity = parseFloat(document.getElementById('id_quantity').value) || 0;
+                const unitPrice = parseFloat(document.getElementById('id_unit_price').value) || 0;
+                const total = quantity * unitPrice;
+                document.getElementById('total-amount').textContent = '$' + total.toFixed(2);
+            }
+
+            // Auto-fill product details when inventory item is selected
+            function handleInventorySelection() {
+                const inventorySelect = document.getElementById('id_inventory_item');
+                const productNameField = document.getElementById('id_product_name');
+                const productModelField = document.getElementById('id_product_model');
+                const unitPriceField = document.getElementById('id_unit_price');
+                const quantityField = document.getElementById('id_quantity');
+                
+                if (inventorySelect.value) {
+                    // Fetch inventory item details via AJAX
+                    fetch(`/dashboard/api/inventory/${inventorySelect.value}/`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                productNameField.value = data.product_name;
+                                productModelField.value = data.product_model;
+                                unitPriceField.value = data.price;
+                                
+                                // Update quantity max based on available stock
+                                quantityField.max = data.stock_quantity;
+                                if (parseInt(quantityField.value) > data.stock_quantity) {
+                                    quantityField.value = data.stock_quantity;
+                                }
+                                
+                                // Show stock info
+                                const stockInfo = document.getElementById('stock-info');
+                                if (stockInfo) {
+                                    stockInfo.textContent = `Available Stock: ${data.stock_quantity}`;
+                                    stockInfo.className = data.stock_quantity <= 5 ? 'text-warning' : 'text-success';
+                                }
+                                
+                                calculateTotal();
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching inventory details:', error);
+                        });
+                } else {
+                    // Clear fields if no inventory item selected
+                    productNameField.value = '';
+                    productModelField.value = '';
+                    unitPriceField.value = '';
+                    quantityField.max = '';
+                    calculateTotal();
+                }
+            }
+
+            // Add stock info display
+            const quantityField = document.getElementById('id_quantity');
+            const stockInfoDiv = document.createElement('div');
+            stockInfoDiv.id = 'stock-info';
+            stockInfoDiv.className = 'form-text';
+            quantityField.parentNode.appendChild(stockInfoDiv);
+
+            // Event listeners
+            document.getElementById('id_inventory_item').addEventListener('change', handleInventorySelection);
+            document.getElementById('id_quantity').addEventListener('input', calculateTotal);
+            document.getElementById('id_unit_price').addEventListener('input', calculateTotal);
+            
+            // Initial calculation and inventory selection
+            calculateTotal();
+            handleInventorySelection();
+        })();
+    </script>
+</body>
+</html>

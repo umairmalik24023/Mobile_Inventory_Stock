@@ -1,0 +1,383 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% if item %}Edit{% else %}Add{% endif %} Mobile Phone - Mobile Shop Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+    <style>
+        body { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            z-index: -1;
+        }
+        .sidebar { width: 260px; transition: width .2s ease; }
+        .content { margin-left: 260px; transition: margin-left .2s ease; }
+        .sidebar .nav-link { color: #e2e8f0; }
+        .sidebar .nav-link.active, .sidebar .nav-link:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .sidebar-collapsed .sidebar { width: 72px; }
+        .sidebar-collapsed .content { margin-left: 72px; }
+        .sidebar .nav-link i { width: 24px; text-align: center; }
+        .sidebar-collapsed .sidebar .label { display: none; }
+        .sidebar-collapsed .sidebar .brand-label { display: none; }
+    </style>
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <nav class="sidebar bg-dark min-vh-100 position-fixed">
+            <div class="p-3 border-bottom border-secondary d-flex align-items-center gap-2">
+                <i class="bi-phone text-white fs-4"></i>
+                <span class="text-white fw-bold brand-label">Mobile Shop</span>
+            </div>
+            <ul class="nav flex-column p-2">
+                <li class="nav-item"><a class="nav-link rounded px-3" href="/dashboard/"><i class="bi-grid me-2"></i><span class="label">Dashboard</span></a></li>
+                <li class="nav-item"><a class="nav-link rounded px-3" href="/dashboard/users/"><i class="bi-people me-2"></i><span class="label">Users</span></a></li>
+                <li class="nav-item"><a class="nav-link rounded px-3" href="/dashboard/customers/"><i class="bi-person-badge me-2"></i><span class="label">Customers</span></a></li>
+                <li class="nav-item"><a class="nav-link rounded px-3" href="/dashboard/orders/"><i class="bi-bag me-2"></i><span class="label">Orders</span></a></li>
+                <li class="nav-item"><a class="nav-link active rounded px-3" href="/dashboard/inventory/"><i class="bi-phone me-2"></i><span class="label">Inventory</span></a></li>
+                <li class="nav-item"><a class="nav-link rounded px-3" href="/dashboard/contacts/"><i class="bi-inbox me-2"></i><span class="label">Contacts</span></a></li>
+                <li class="nav-item"><a class="nav-link rounded px-3" href="#content"><i class="bi-folder2-open me-2"></i><span class="label">Content</span></a></li>
+                <li class="nav-item"><a class="nav-link rounded px-3" href="#settings"><i class="bi-gear me-2"></i><span class="label">Settings</span></a></li>
+            </ul>
+        </nav>
+
+        <!-- Content -->
+        <main class="content w-100">
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand bg-white shadow-sm sticky-top">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-outline-secondary btn-sm" id="sidebarToggle" type="button"><i class="bi-layout-sidebar"></i></button>
+                        <h4 class="mb-0">{% if item %}Edit Mobile Phone{% else %}Add Mobile Phone{% endif %}</h4>
+                    </div>
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item me-2"><a href="/" class="btn btn-outline-primary btn-sm"><i class="bi-house"></i> Site</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi-person-circle fs-5"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><h6 class="dropdown-header">Admin</h6></li>
+                                <li><a class="dropdown-item" href="#profile">Profile</a></li>
+                                <li><a class="dropdown-item" href="#settings">Settings</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="/logout/">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container-fluid py-4">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/dashboard/">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="/dashboard/inventory/">Inventory</a></li>
+                        <li class="breadcrumb-item active">{% if item %}Edit{% else %}Add{% endif %} Mobile Phone</li>
+                    </ol>
+                </nav>
+
+                <!-- Form -->
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0">{% if item %}Edit Mobile Phone{% else %}Add New Mobile Phone{% endif %}</h5>
+                            </div>
+                            <div class="card-body">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                            {{ message }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                                <form method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    
+                                    <!-- Basic Information -->
+                                    <div class="row mb-4">
+                                        <div class="col-12">
+                                            <h6 class="text-primary mb-3">📱 Basic Information</h6>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.model_name.id_for_label }}" class="form-label">Model Name *</label>
+                                            {{ form.model_name }}
+                                            {% if form.model_name.errors %}
+                                                <div class="text-danger">{{ form.model_name.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.brand.id_for_label }}" class="form-label">Brand *</label>
+                                            {{ form.brand }}
+                                            {% if form.brand.errors %}
+                                                <div class="text-danger">{{ form.brand.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.model_number.id_for_label }}" class="form-label">Model Number</label>
+                                            {{ form.model_number }}
+                                            {% if form.model_number.errors %}
+                                                <div class="text-danger">{{ form.model_number.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.color.id_for_label }}" class="form-label">Color *</label>
+                                            {{ form.color }}
+                                            {% if form.color.errors %}
+                                                <div class="text-danger">{{ form.color.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.storage_capacity.id_for_label }}" class="form-label">Storage Capacity *</label>
+                                            {{ form.storage_capacity }}
+                                            {% if form.storage_capacity.errors %}
+                                                <div class="text-danger">{{ form.storage_capacity.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <!-- Pricing and Stock -->
+                                    <div class="row mb-4">
+                                        <div class="col-12">
+                                            <h6 class="text-primary mb-3">💰 Pricing & Stock</h6>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="{{ form.price.id_for_label }}" class="form-label">Price *</label>
+                                            {{ form.price }}
+                                            {% if form.price.errors %}
+                                                <div class="text-danger">{{ form.price.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="{{ form.original_price.id_for_label }}" class="form-label">Original Price</label>
+                                            {{ form.original_price }}
+                                            {% if form.original_price.errors %}
+                                                <div class="text-danger">{{ form.original_price.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="{{ form.stock_quantity.id_for_label }}" class="form-label">Stock Quantity *</label>
+                                            {{ form.stock_quantity }}
+                                            {% if form.stock_quantity.errors %}
+                                                <div class="text-danger">{{ form.stock_quantity.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.status.id_for_label }}" class="form-label">Status</label>
+                                            {{ form.status }}
+                                            {% if form.status.errors %}
+                                                <div class="text-danger">{{ form.status.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <!-- Images -->
+                                    <div class="row mb-4">
+                                        <div class="col-12">
+                                            <h6 class="text-primary mb-3">📸 Product Images</h6>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.main_image.id_for_label }}" class="form-label">Main Image *</label>
+                                            {{ form.main_image }}
+                                            {% if form.main_image.errors %}
+                                                <div class="text-danger">{{ form.main_image.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.image_2.id_for_label }}" class="form-label">Image 2</label>
+                                            {{ form.image_2 }}
+                                            {% if form.image_2.errors %}
+                                                <div class="text-danger">{{ form.image_2.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.image_3.id_for_label }}" class="form-label">Image 3</label>
+                                            {{ form.image_3 }}
+                                            {% if form.image_3.errors %}
+                                                <div class="text-danger">{{ form.image_3.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.image_4.id_for_label }}" class="form-label">Image 4</label>
+                                            {{ form.image_4 }}
+                                            {% if form.image_4.errors %}
+                                                <div class="text-danger">{{ form.image_4.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <!-- Specifications -->
+                                    <div class="row mb-4">
+                                        <div class="col-12">
+                                            <h6 class="text-primary mb-3">⚙️ Technical Specifications</h6>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.screen_size.id_for_label }}" class="form-label">Screen Size</label>
+                                            {{ form.screen_size }}
+                                            {% if form.screen_size.errors %}
+                                                <div class="text-danger">{{ form.screen_size.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.processor.id_for_label }}" class="form-label">Processor</label>
+                                            {{ form.processor }}
+                                            {% if form.processor.errors %}
+                                                <div class="text-danger">{{ form.processor.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.ram.id_for_label }}" class="form-label">RAM</label>
+                                            {{ form.ram }}
+                                            {% if form.ram.errors %}
+                                                <div class="text-danger">{{ form.ram.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.camera_main.id_for_label }}" class="form-label">Main Camera</label>
+                                            {{ form.camera_main }}
+                                            {% if form.camera_main.errors %}
+                                                <div class="text-danger">{{ form.camera_main.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.battery_capacity.id_for_label }}" class="form-label">Battery Capacity</label>
+                                            {{ form.battery_capacity }}
+                                            {% if form.battery_capacity.errors %}
+                                                <div class="text-danger">{{ form.battery_capacity.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ form.operating_system.id_for_label }}" class="form-label">Operating System</label>
+                                            {{ form.operating_system }}
+                                            {% if form.operating_system.errors %}
+                                                <div class="text-danger">{{ form.operating_system.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <!-- Additional Information -->
+                                    <div class="row mb-4">
+                                        <div class="col-12">
+                                            <h6 class="text-primary mb-3">📝 Additional Information</h6>
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <label for="{{ form.description.id_for_label }}" class="form-label">Description</label>
+                                            {{ form.description }}
+                                            {% if form.description.errors %}
+                                                <div class="text-danger">{{ form.description.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <label for="{{ form.features.id_for_label }}" class="form-label">Key Features</label>
+                                            {{ form.features }}
+                                            {% if form.features.errors %}
+                                                <div class="text-danger">{{ form.features.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check">
+                                                {{ form.is_featured }}
+                                                <label class="form-check-label" for="{{ form.is_featured.id_for_label }}">
+                                                    Featured Product
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check">
+                                                {{ form.is_new_arrival }}
+                                                <label class="form-check-label" for="{{ form.is_new_arrival.id_for_label }}">
+                                                    New Arrival
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex gap-2">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi-check-circle me-1"></i> {% if item %}Update Mobile Phone{% else %}Add Mobile Phone{% endif %}
+                                        </button>
+                                        <a href="/dashboard/inventory/" class="btn btn-outline-secondary">
+                                            <i class="bi-x-circle me-1"></i> Cancel
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-white">
+                                <h6 class="mb-0">Quick Tips</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="bi-lightbulb text-warning me-2"></i> Use high-quality images for better presentation</li>
+                                    <li class="mb-2"><i class="bi-tag text-info me-2"></i> Set original price higher than current price for discount display</li>
+                                    <li class="mb-2"><i class="bi-star text-warning me-2"></i> Mark popular items as featured</li>
+                                    <li class="mb-2"><i class="bi-plus-circle text-success me-2"></i> Mark new products as new arrivals</li>
+                                    <li class="mb-2"><i class="bi-list-ul text-primary me-2"></i> Separate features with commas</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card shadow-sm mt-3">
+                            <div class="card-header bg-white">
+                                <h6 class="mb-0">Quick Actions</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-grid gap-2">
+                                    <a href="/dashboard/inventory/" class="btn btn-outline-primary btn-sm">
+                                        <i class="bi-list me-1"></i> View All Inventory
+                                    </a>
+                                    <a href="/dashboard/orders/new/" class="btn btn-outline-success btn-sm">
+                                        <i class="bi-bag-plus me-1"></i> Create Order
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function() {
+            const body = document.body;
+            const toggleBtn = document.getElementById('sidebarToggle');
+            const key = 'sidebar-collapsed';
+            if (localStorage.getItem(key) === '1') {
+                body.classList.add('sidebar-collapsed');
+            }
+            toggleBtn?.addEventListener('click', function() {
+                body.classList.toggle('sidebar-collapsed');
+                const collapsed = body.classList.contains('sidebar-collapsed');
+                localStorage.setItem(key, collapsed ? '1' : '0');
+            });
+        })();
+    </script>
+</body>
+</html>

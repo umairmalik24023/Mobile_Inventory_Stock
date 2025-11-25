@@ -1,0 +1,26 @@
+{{ site_name }} - Order Confirmation
+
+Dear {{ customer.first_name }} {{ customer.last_name }},
+
+Thank you for your order! We have received your order and it is being processed.
+
+Order Details:
+- Order Number: {{ order.order_number }}
+- Product: {{ order.product_name }}
+- Model: {{ order.product_model }}
+- Quantity: {{ order.quantity }}
+- Unit Price: ${{ order.unit_price }}
+- Total Amount: ${{ order.total_amount }}
+- Order Status: {{ order.get_order_status_display }}
+- Payment Status: {{ order.get_payment_status_display }}
+- Order Date: {{ order.order_date|date:"F d, Y" }}
+
+We will send you another email when your order ships.
+
+If you have any questions, please don't hesitate to contact us.
+
+Best regards,
+{{ site_name }} Team
+
+---
+This is an automated message. Please do not reply to this email.

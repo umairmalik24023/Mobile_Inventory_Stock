@@ -1,0 +1,24 @@
+{{ site_name }} - Low Stock Alert
+
+⚠️ LOW STOCK WARNING
+
+The following inventory item is running low on stock and may need to be restocked soon.
+
+Inventory Item Details:
+- Product: {{ item.brand|title }} {{ item.model_name }}
+- Model Number: {{ item.model_number }}
+- Color: {{ item.color }}
+- Storage: {{ item.storage_capacity }}
+- Current Stock: {{ item.stock_quantity }} units
+- Price: ${{ item.price }}
+- Status: {{ item.get_status_display }}
+
+Action Required: Please consider restocking this item to avoid stockouts.
+
+You can update the inventory by visiting the admin dashboard.
+
+Best regards,
+{{ site_name }} System
+
+---
+This is an automated alert. Please do not reply to this email.
