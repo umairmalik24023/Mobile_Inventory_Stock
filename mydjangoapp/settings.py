@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dashboard',
+    'Mobile_Inventory_Stock',
 ]
 
 MIDDLEWARE = [

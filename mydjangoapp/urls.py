@@ -42,6 +42,9 @@ urlpatterns = [
     path('forms.html', views.forms_view, name='forms_legacy'),
     path('forms/', views.forms_view, name='forms'),
 
+    # MOBILE INVENTORY STOCK APP ROUTES (REQUIRED!)
+    path('inventory-admin/', include('Mobile_Inventory_Stock.urls')),
+
     path('', views.home_view, name='home'),
 ]
 
