@@ -25,11 +25,17 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),  # Django admin site
-    path('admin.html', views.admin_view, name='admin_dashboard_legacy'),  # direct .html URL to custom dashboard
-    path('dashboard/', views.admin_view, name='admin_dashboard'),
-    path('dashboard/', include('dashboard.urls')),
-    path('logout/', views.logout_view, name='logout'),
 
+    # --------------------------- #
+    # YOUR CUSTOM DASHBOARD (renamed to avoid conflict)
+    # --------------------------- #
+    path('dashboard/', include('dashboard.urls')),
+    path('dashboard-view/', views.admin_view, name='custom_dashboard'),
+
+    # Legacy flat routes (safe!)
+    path('dashboard.html', views.admin_view, name='dashboard_legacy'),
+
+    path('logout/', views.logout_view, name='logout'),
     # Friendly and .html routes
     path('about.html', views.about_view, name='about_legacy'),
     path('about/', views.about_view, name='about'),
@@ -42,7 +48,7 @@ urlpatterns = [
 # Serve media files during development
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
+    #urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
     # Serve assets directory
     from django.conf.urls.static import static
     urlpatterns += static('/assets/', document_root=settings.BASE_DIR / 'assets')

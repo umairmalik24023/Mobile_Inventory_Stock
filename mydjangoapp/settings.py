@@ -28,22 +28,15 @@ SECRET_KEY = 'django-insecure-6-cxp@*jc@k9j*2k!x5x#iav4coc4#!p*(31$f)ovntqxe#fe2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-#===========================================================================================#
-#ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'testserver'] # I commented it UMAIR AHMAD, If Any issue persists comment below command and uncomment it, thanks
-#===========================================================================================#
-
-
-#===========================================================================================#
-#ALLOWED_HOSTS = ['*'] # Additional Added Command by me UMAIR AHMAD
-#===========================================================================================#
-
-#===========================================================================================#
-ALLOWED_HOSTS = ['.onrender.com', 'localhost'] # Additional Added Command by me UMAIR AHMAD
-#===========================================================================================#
+ALLOWED_HOSTS = [ 
+                    'mobile-inventory-stock.onrender.com',
+                    '.onrender.com',
+                    'localhost',
+                    '127.0.0.1'
+                 ] 
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -56,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # MUST be here
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -142,11 +136,6 @@ STATICFILES_DIRS = [
 # Where collectstatic will put all final static files
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-
-# Whitenoise for static handling
-MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware") # Line Added by me UMAIR AHMAD
-#===========================================================================================#
-
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
@@ -175,3 +164,4 @@ DEFAULT_FROM_EMAIL = 'Mobile Shop <your-email@gmail.com>'
 
 # For development, you can use console backend
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
