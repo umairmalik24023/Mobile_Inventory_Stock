@@ -28,12 +28,14 @@ SECRET_KEY = 'django-insecure-6-cxp@*jc@k9j*2k!x5x#iav4coc4#!p*(31$f)ovntqxe#fe2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [ 
-                   'mobile-inventory-stock.onrender.com',
-                   '.onrender.com',
-                   'localhost',
-                   '127.0.0.1'
-] 
+ALLOWED_HOSTS = [
+    'mobile-inventory-stock.onrender.com',
+    '.onrender.com',
+    'localhost',
+    '127.0.0.1'
+]
+
+
 
 
 # Application definition
@@ -67,7 +69,9 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.static',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
