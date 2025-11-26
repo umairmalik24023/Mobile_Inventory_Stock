@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'dashboard',
+    #'dashboard',
 ]
 
 MIDDLEWARE = [
@@ -132,18 +132,22 @@ USE_TZ = True
 # Static files
 STATIC_URL = '/static/'
 
-# Where collectstatic will put all final static files
-STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Additional static files directories
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
-    BASE_DIR / 'assets',  # Add assets folder for images
+    #BASE_DIR / 'assets',  # Add assets folder for images
 ]
+
+# Where collectstatic will put all final static files
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 
 # Whitenoise for static handling
 MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware") # Line Added by me UMAIR AHMAD
 #===========================================================================================#
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 
