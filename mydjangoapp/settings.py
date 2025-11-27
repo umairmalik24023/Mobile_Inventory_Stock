@@ -130,15 +130,14 @@ USE_TZ = True
 # Static files
 STATIC_URL = '/static/'
 
-
 # Additional static files directories
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-    #BASE_DIR / 'assets',  # Add assets folder for images
+    BASE_DIR / 'mydjangoapp' / 'static',
 ]
 
-# Where collectstatic will put all final static files
+# Where collectstatic will put final static files
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
