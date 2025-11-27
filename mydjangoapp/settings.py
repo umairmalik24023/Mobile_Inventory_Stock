@@ -169,3 +169,20 @@ DEFAULT_FROM_EMAIL = 'Mobile Shop <your-email@gmail.com>'
 # For development, you can use console backend
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+        },
+    },
+}
+
+
