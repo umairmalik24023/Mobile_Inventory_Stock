@@ -75,23 +75,20 @@ DATABASES = {
 # Static files
 STATIC_URL = '/static/'
 
-# Collectable source directories: include project-level static and app static
+# App-level & project-level static (only app-level needed)
 STATICFILES_DIRS = [
     BASE_DIR / 'mydjangoapp' / 'static',
 ]
 
-# Where collectstatic will copy files
+# collectstatic output folder
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Choose manifest storage in production only if you run collectstatic.
-# Use the env var USE_MANIFEST=1 in Render when collectstatic is executed during build.
-USE_MANIFEST = os.getenv("USE_MANIFEST", "1") == "1"
-
-# Use manifest only in production
+# Use WhiteNoise in production
 if not DEBUG:
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 else:
-    STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+    STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+
 
 
 
