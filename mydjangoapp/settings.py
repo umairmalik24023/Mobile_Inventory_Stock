@@ -75,23 +75,23 @@ DATABASES = {
 # Static files
 STATIC_URL = '/static/'
 
-# App-level & project-level static (only app-level needed)
+# Only app-level static directory (correct)
 STATICFILES_DIRS = [
     BASE_DIR / 'mydjangoapp' / 'static',
 ]
 
-# collectstatic output folder
+# Where collectstatic places files
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Use WhiteNoise in production
+# TEMPORARY: Disable Manifest to stop favicon errors
+# --------------------------------------------------
+# Production (DEBUG=False): use NON-Manifest storage
+# This prevents: "Missing staticfiles manifest entry for 'assets/favicon.png'"
 if not DEBUG:
-    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 else:
     STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
-
-
-
-
+# --------------------------------------------------
 
 
 # Default PK
